@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s;
+        }
+        .input-screen {
+            text-align: center;
+        }
+        input {
+            font-size: 18px;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 200px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .result-screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+        .logo {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <img src="logo.png" alt="Logo" class="logo">
+    <div class="input-screen" id="inputScreen">
+        <input type="text" id="nameInput" autofocus>
+        <br>
+        <button id="submitBtn">Submit</button>
+    </div>
+    <div class="result-screen" id="resultScreen"></div>
+
+    <script>
+        const candidates = ["Zsa Zsa", "Nils", "Barbara", "Dorus", "Lisa", "Boyd"];
+        const loser = "Pieter";
+
+        const nameInput = document.getElementById("nameInput");
+        const submitBtn = document.getElementById("submitBtn");
+        const inputScreen = document.getElementById("inputScreen");
+        const resultScreen = document.getElementById("resultScreen");
+
+        function checkName() {
+            const name = nameInput.value.trim();
+
+            console.log("Checking name")
+            console.log(name)
+            console.log(candidates.includes(name));
+
+            if (candidates.includes(name)) {
+                showResult("green");
+            } else if (name === loser) {
+                showResult("red");
+            } else {
+                alert("Onbekende naam!");
+            }
+        }
+
+        function showResult(color) {
+            inputScreen.style.display = "none";
+            resultScreen.style.display = "block";
+            document.body.style.backgroundColor = color;
+        }
+
+        function resetGame() {
+            inputScreen.style.display = "block";
+            resultScreen.style.display = "none";
+            document.body.style.backgroundColor = "white";
+            nameInput.value = "";
+            nameInput.focus();
+        }
+
+        submitBtn.addEventListener("click", checkName);
+
+        nameInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkName();
+            }
+        });
+
+        document.body.addEventListener("keydown", function(event) {
+            if (event.key === "Escape" && resultScreen.style.display === "block") {
+                resetGame();
+            }
+        });
+    </script>
+</body>
+</html>
